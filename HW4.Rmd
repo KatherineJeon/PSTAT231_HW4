@@ -52,7 +52,6 @@ k-cross validation shuffles the dataset randomly and split the data into k group
 ## Question 4
 
 ```{r}
-#Recipe
 titanic_recipe = recipe(survived ~ pclass + sex + age + sib_sp + parch + fare, 
                         data = titanic_train) %>%
         step_impute_linear(age) %>%
@@ -60,7 +59,6 @@ titanic_recipe = recipe(survived ~ pclass + sex + age + sib_sp + parch + fare,
         step_interact(terms = ~ starts_with("sex"):fare + age:fare)
 
 
-#Logistic
 log_reg = logistic_reg() %>% 
         set_engine("glm") %>% 
         set_mode("classification")
@@ -72,7 +70,6 @@ log_wkflow = workflow() %>%
 log_fit = fit(log_wkflow, titanic_train)
 
 
-#LDA
 lda_mod = discrim_linear() %>%
         set_engine("MASS") %>%
         set_mode("classification")
@@ -84,7 +81,6 @@ lda_wkflow = workflow() %>%
 lda_fit = fit(lda_wkflow, titanic_train)
 
 
-#QDA
 qda_mod = discrim_quad() %>% 
         set_mode("classification") %>% 
         set_engine("MASS")
@@ -95,6 +91,7 @@ qda_wkflow = workflow() %>%
 
 qda_fit = fit(qda_wkflow, titanic_train)
 ```
+we are fitting 3 models with 10 folds each, so 3 * 10 = 30 folds
 
 
 ## Question 5
@@ -127,6 +124,7 @@ collect_metrics(log_res)
 collect_metrics(lda_res)
 collect_metrics(qda_res)
 ```
+Logistic regression had the highest accuracy
 
 
 ## Question 7
@@ -149,7 +147,9 @@ log_acc
 
 
 ## Question 9
-
+$$
+\hat{\beta} = \bar{Y}
+$$
 
 
 
